@@ -1,0 +1,320 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/home': (context) => MyHomePage(title: 'Home page'),
+      },
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Food for you, Song!"),
+        leading: IconButton(
+          icon: Icon(Icons.home),
+          onPressed: () {
+            Navigator.pushNamed(context, '/home');
+          },
+        ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(16.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            child: Text(
+              "Choose to EAT !",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 20), // Add spacing between header and cards
+          // First Image with description wrapped in Card
+          _buildFoodCard(
+            imageUrl: 'https://lh6.ggpht.com/fHX5niNGXLFTvwiDzZzY0GWXXh7pAjhHVcFAS28LjSIz1YWxyE5Mh9uhKmnyuVWeutG2TI5mlyW2yrA6vtLUyg=s690-c-rw-v1-e365',
+            description: 'Blueberry-Oat Bars',
+          ),
+          SizedBox(height: 10), // Add some spacing between the cards
+          // Second Image with description wrapped in Card
+          _buildFoodCard(
+            imageUrl: 'https://lh3.googleusercontent.com/7sjomC_QWl6E_VgEIM-jtMKcHqXx_vyx3HKwg1ehqU1JzQ4N8FCGIx0HDdHsysFXfycngSJooDDaxEKlYy69=s690-c-rw-v1-e365',
+            description: 'Israeli Salad',
+          ),
+          SizedBox(height: 10), // Add some spacing between the cards
+          // Third Image with description wrapped in Card
+          _buildFoodCard(
+            imageUrl: 'https://lh3.googleusercontent.com/itqCFLWvaV6Bggd9Iv6ldagmEj2Mkl-0NcMMPmC5oe3aTK5xJUdD9sruGF5YtMOfbY3P5y6_d24blHX1jxaL-Q=s690-c-rw-v1-e365',
+            description: 'Mushroom Paella',
+          ),
+          SizedBox(height: 10), // Add some spacing between the cards
+          // Fourth Image with description wrapped in Card
+          _buildFoodCard(
+            imageUrl: 'https://lh3.ggpht.com/r5DFybYGW2r4pGYdbDopoxiW4Ua3VBhpjWehb2hAJtI0qUZF4Un2Bjz8KucrHqi8eOsehBByr17GCy11yiQ5=s690-c-rw-v1-e365',
+            description: 'Creamy Vegan Cauliflower Soup with Garlic + Rosemary',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFoodCard({required String imageUrl, required String description}) {
+    return Card(
+      elevation: 4.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.green.withOpacity(0.8), Colors.green.withOpacity(0.4)],
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: ListTile(
+          leading: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            padding: EdgeInsets.all(4.0),
+            child: Image.network(
+              imageUrl,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
+          ),
+          title: Text(
+            description,
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            "This is a description of the $description.",
+            style: TextStyle(color: Colors.white),
+          ),
+          trailing: Icon(
+            Icons.favorite,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.teal[200],
+      appBar: AppBar(
+        title: Text("Home page"),
+        actions: [
+          Row(
+            children: [
+              IconButton(
+                icon: Icon(Icons.filter_list),
+                onPressed: () {
+                  // Add functionality for filter icon
+                  print("Filter icon pressed");
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.sort),
+                onPressed: () {
+                  // Add functionality for sort icon
+                  print("Sort icon pressed");
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hello, Song',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'What are you cooking today',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                hintStyle: TextStyle(color: Colors.grey),
+                suffixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                fillColor: Colors.grey[300],
+              ),
+              onChanged: (value) {
+                print('Search query: $value');
+              },
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CategoryIcon(icon: Icons.language, label: 'All'),
+                CategoryIcon(icon: Icons.flag, label: 'Thai'),
+                CategoryIcon(icon: Icons.all_inclusive, label: 'Indian'),
+                CategoryIcon(icon: Icons.star, label: 'Chinese'),
+                CategoryIcon(icon: Icons.local_pizza, label: 'Italian'),
+              ],
+            ),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
+                children: <Widget>[
+                  ProductBox1(
+                    name: "Japanese Salmon Sushi",
+                    description: "10 minutes to read.",
+                    categories: "Japanese Food",
+                    imgUrl:
+                        "https://www.sushiya.in/cdn/shop/products/10.FreshSalmonMaki.jpg?v=1629102974",
+                  ),
+                  ProductBox1(
+                    name: "Pad Thai",
+                    description: "10 minutes to read",
+                    categories: 'Thai Food',
+                    imgUrl:
+                        "https://hot-thai-kitchen.com/wp-content/uploads/2019/09/pad-thai-blog.jpg",
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_back),
+      ),
+    );
+  }
+}
+
+class CategoryIcon extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const CategoryIcon({Key? key, required this.icon, required this.label}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, size: 40, color: Colors.white),
+        SizedBox(height: 4),
+        Text(label, style: TextStyle(color: Colors.white)),
+      ],
+    );
+  }
+}
+
+class ProductBox1 extends StatelessWidget {
+  ProductBox1({
+    Key? key,
+    required this.name,
+    required this.description,
+    required this.categories,
+    required this.imgUrl,
+  }) : super(key: key);
+
+  final String name;
+  final String description;
+  final String categories;
+  final String imgUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(2),
+      height: 200,
+      child: Card(
+        color: Colors.grey[300],
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(5),
+              child: Image.network(
+                imgUrl,
+                height: 150,
+                width: 150,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(this.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(this.description),
+                    Text("Categories: " + this.categories.toString()),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
